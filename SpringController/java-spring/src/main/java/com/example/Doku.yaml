@@ -1,0 +1,72 @@
+asyncapi: '2.6.0'
+info:
+  title: Simple API for Greetings and Messages
+  version: '1.0.0'
+  description: |
+    Dieses API ermöglicht es, den Status der benutzung Anzufragen, Benutzer zu begrüßen und Nachrichten hinzuzufügen.
+ 
+servers:
+  local:
+    url: localhost:8080/api
+    protocol: http
+    description: Lokaler Server für Test
+ 
+channels:
+  /status:
+    description: Prüft, ob die API erreichbar ist.
+    get:
+      summary: API-Status abfragen
+      operationId: checkStatus
+      responses:
+        200:
+          description: Gibt den Status "OK" zurück.
+ 
+  /status/{name}:
+    description: Begrüsst einen Benutzer mit seinem Namen.
+    parameters:
+      name:
+        description: Name des Benutzers
+        schema:
+          type: string
+    get:
+      summary: Begrüssung mit Namen
+      operationId: greetNameDynamic
+      responses:
+        200:
+          description: Gibt eine persönliche Begrüssung zurück.
+ 
+  /greet:
+    description: Begrüßt einen Benutzer mit einem Namen, der als Query-Parameter übergeben wird.
+    parameters:
+      name:
+        description: Name des Benutzers
+        schema:
+          type: string
+    get:
+      summary: Begrüssung per Query-Parameter
+      operationId: greetNameNonDynamic
+      responses:
+        200:
+          description: Gibt eine personalisierte Begrüssung zurück.
+ 
+  /message:
+    description: Fügt eine neue Nachricht zur Nachrichtenliste hinzu.
+    post:
+      summary: Neue Nachricht hinzufügen
+      operationId: addMessage
+      requestBody:
+        description: Nachricht, die hinzugefügt werden soll.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: Inhalt der Nachricht
+      responses:
+        200:
+          description: Gibt die aktualisierte Liste aller Nachrichten zurück.
+ 
+ 
